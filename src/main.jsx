@@ -234,7 +234,7 @@ function PhoneOS() {
           <div className="os-app-grid">
             {projects.map((project, index) => (
               <button
-                className={'os-app accent-' + project.accent}
+                className={'os-app os-app-' + project.id + ' accent-' + project.accent}
                 key={project.id}
                 type="button"
               style={{ '--app-index': index }}

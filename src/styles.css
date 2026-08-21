@@ -1342,16 +1342,36 @@ footer a:hover { color: var(--lime); }
 .os-app:hover .os-app-icon { transform: translateY(-0.22rem) scale(1.04); }
 
 .os-logo-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  padding: 0.22rem;
+  padding: 0;
 }
 
 .os-logo-icon img {
+  position: absolute;
+  inset: 0;
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 82%;
+  height: 82%;
+  margin: auto;
   object-fit: contain;
+  object-position: center;
   filter: drop-shadow(0 2px 2px rgba(0,0,0,0.18));
+}
+
+.os-app-mywhip .os-logo-icon,
+.os-app-logix .os-logo-icon {
+  background: #fff;
+}
+
+.os-app-mywhip .os-logo-icon img,
+.os-app-logix .os-logo-icon img {
+  width: 112%;
+  height: 112%;
+  mix-blend-mode: multiply;
 }
 
 .os-contact-app { --project-accent: #51df72; --project-bg: #169a4b; }
