@@ -171,7 +171,7 @@ function Header({ menuOpen, setMenuOpen }) {
           <a href={href} key={href}>{label}</a>
         ))}
       </nav>
-      <a className="header-cta" href="mailto:maheshwarinaman513@gmail.com">
+      <a className="header-cta" href="#contact-form">
         Say hello <Arrow />
       </a>
       <button
@@ -200,7 +200,7 @@ function Header({ menuOpen, setMenuOpen }) {
               </a>
             ))}
           </nav>
-          <a href="mailto:maheshwarinaman513@gmail.com" onClick={closeMenu}>
+          <a href="#contact-form" onClick={closeMenu}>
             Start a project <Arrow />
           </a>
         </div>
@@ -340,7 +340,7 @@ function PhoneOS() {
           <div className="os-dock">
             <a href="/"><span>⌂</span><small>Portfolio</small></a>
             <a href="/Naman-Asawa-Resume.pdf" download><span>↓</span><small>Resume</small></a>
-            <a href="mailto:maheshwarinaman513@gmail.com"><span>✉</span><small>Email</small></a>
+            <a href="/#contact-form"><span>✉</span><small>Email</small></a>
           </div>
           <div className="phone-home-indicator" />
           {activeProject && (
@@ -366,6 +366,13 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [copyState, setCopyState] = useState('Copy email');
+  const [contactState, setContactState] = useState('idle');
+
+  useEffect(() => {
+    if (window.location.hash === '#contact-form') {
+      window.requestAnimationFrame(() => document.getElementById('contact-form')?.scrollIntoView());
+    }
+  }, []);
 
   const openProject = (project) => {
     setSelectedProject(project);
@@ -382,6 +389,28 @@ function App() {
       logDev('email-copy-failed');
     }
     window.setTimeout(() => setCopyState('Copy email'), 2400);
+  };
+
+  const submitContactForm = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    setContactState('sending');
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+      if (!response.ok) throw new Error('Contact form submission failed');
+      form.reset();
+      setContactState('sent');
+      logDev('contact-form-sent');
+    } catch {
+      setContactState('error');
+      logDev('contact-form-failed');
+    }
   };
 
   return (
@@ -533,11 +562,29 @@ function App() {
             <p>Open to React Native roles, product teams and mobile work that needs a reliable execution partner.</p>
           </div>
           <div className="contact-actions">
-            <a className="button primary" href="mailto:maheshwarinaman513@gmail.com">Start a project <Arrow /></a>
+            <a className="button primary" href="#contact-form">Start a project <Arrow /></a>
             <button className="button" type="button" onClick={copyEmail}>{copyState} <span aria-hidden="true">⧉</span></button>
           </div>
+          <form className="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={submitContactForm}>
+            <input type="hidden" name="form-name" value="contact" />
+            <p className="form-honeypot" hidden><label>Leave this empty <input name="bot-field" /></label></p>
+            <div className="contact-form-heading">
+              <span>DIRECT MESSAGE</span>
+              <p>Send a message from any browser. No mail app needed.</p>
+            </div>
+            <div className="contact-form-fields">
+              <label>Name<input type="text" name="name" autoComplete="name" required /></label>
+              <label>Email<input type="email" name="email" autoComplete="email" required /></label>
+              <label>Company <span>(optional)</span><input type="text" name="company" autoComplete="organization" /></label>
+              <label>Message<textarea name="message" rows="5" required /></label>
+            </div>
+            <div className="contact-form-footer">
+              <p aria-live="polite">{contactState === 'sent' ? 'Message sent. Thank you.' : contactState === 'error' ? 'Could not send. Please copy the email above.' : 'Replies go to your provided email address.'}</p>
+              <button className="button primary" type="submit" disabled={contactState === 'sending'}>{contactState === 'sending' ? 'Sending…' : 'Send message'} <Arrow /></button>
+            </div>
+          </form>
           <div className="contact-grid">
-            <a href="mailto:maheshwarinaman513@gmail.com"><span>Email</span><strong>maheshwarinaman513@gmail.com</strong><Arrow /></a>
+            <a href="#contact-form"><span>Email</span><strong>Send a direct message</strong><Arrow /></a>
             <a href="https://github.com/namanmah2121" target="_blank" rel="noreferrer"><span>GitHub</span><strong>github.com/namanmah2121</strong><Arrow /></a>
             <a href="https://in.linkedin.com/in/naman-asawa" target="_blank" rel="noreferrer"><span>LinkedIn</span><strong>linkedin.com/in/naman-asawa</strong><Arrow /></a>
             <a href="tel:+918696281302"><span>Phone</span><strong>+91 86962 81302</strong><Arrow /></a>

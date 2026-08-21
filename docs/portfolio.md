@@ -21,12 +21,14 @@ Visitor
 - No Play Store links or unverified product metrics are shown.
 - Mantae is the final project name. Do not rename it to Delyfy.
 - Contact data is shown only as explicit user-facing links. Development logs must not include it.
+- Contact form submissions must not log visitor name, email, company or message content.
 
 ## Implementation
 
 - src/data/projects.js owns project, skills, evidence-backed capabilities, flows and technology content.
 - src/main.jsx renders the portfolio, device mockups, project-detail modal and Naman OS route.
 - src/styles.css owns responsive layout, device emulator visuals, animation and visual tokens.
+- index.html contains the static Netlify Forms definition required for deploy-time form detection.
 - public/work contains user-supplied screenshots and profile photo.
 - There is no database, backend, auth flow or third-party data source.
 - docs/project-evidence.md records the source-backed business flows and implementation evidence for every showcased product.
@@ -75,11 +77,18 @@ Reason: match the approved visual reference without adding distracting cursor ef
 
 Impact: src/main.jsx drives an immediate 6px cursor dot and a delayed cursor ring; src/styles.css expands the 36px ring to 68px on interactive hover targets and preserves the touch fallback.
 
+Decision: use Netlify Forms for direct messages.
+
+Reason: mailto links depend on a visitor having a configured mail application, which is unreliable on many browsers and devices.
+
+Impact: Say Hello, Start a Project, the Email card and the Naman OS Email dock route visitors to the contact form. The browser posts the form to Netlify; the owner must configure a submission notification in Netlify Forms.
+
 ## Edge cases
 
 - Clipboard API unavailable: show "Use email link" instead of claiming success.
 - JavaScript disabled: no app content renders; static deployment still serves the document shell.
 - Reduced-motion preference: CSS disables non-essential motion.
 - Touch devices and reduced-motion users: the native cursor remains active; the custom cursor is not rendered.
+- Contact submission failure: show a clear fallback message and retain copy-email and phone contact options.
 - Long app screenshots: the image remains clipped to the iOS display and scrolls only inside the visible app area.
 - Very narrow viewport: navigation becomes a full-screen menu and project layouts stack.
