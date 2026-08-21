@@ -64,6 +64,134 @@ function DeviceMockup({ src, alt, className = '' }) {
   );
 }
 
+function CustomCursor() {
+  const cursorRef = useRef(null);
+  const coreRef = useRef(null);
+  const nearTrailRef = useRef(null);
+  const farTrailRef = useRef(null);
+  const orbitRef = useRef(null);
+  const labelRef = useRef(null);
+
+  useEffect(() => {
+    const finePointer = window.matchMedia('(pointer: fine)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!finePointer.matches || reducedMotion.matches) return undefined;
+
+    const cursor = cursorRef.current;
+    const core = coreRef.current;
+    const nearTrail = nearTrailRef.current;
+    const farTrail = farTrailRef.current;
+    const orbit = orbitRef.current;
+    const label = labelRef.current;
+    if (!cursor || !core || !nearTrail || !farTrail || !orbit || !label) return undefined;
+
+    let targetX = -100;
+    let targetY = -100;
+    let nearX = -100;
+    let nearY = -100;
+    let farX = -100;
+    let farY = -100;
+    let animationFrame;
+    let clickTimer;
+
+    const move = (node, x, y) => {
+      node.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+    };
+
+    const setMode = (target) => {
+      const element = target instanceof Element ? target : null;
+      const interactive = element?.closest('a, button, [role="button"]');
+      let mode = 'default';
+      let text = '';
+
+      if (interactive) {
+        if (interactive.classList.contains('os-app')) {
+          mode = 'open';
+          text = 'OPEN';
+        } else if (interactive.getAttribute('href')?.startsWith('tel:')) {
+          mode = 'call';
+          text = 'CALL';
+        } else if (interactive.getAttribute('href')?.startsWith('mailto:')) {
+          mode = 'mail';
+          text = 'MAIL';
+        } else if (interactive.classList.contains('text-button')) {
+          mode = 'view';
+          text = 'VIEW';
+        } else {
+          mode = 'link';
+          text = 'GO';
+        }
+      }
+
+      cursor.dataset.mode = mode;
+      label.textContent = text;
+    };
+
+    const animate = () => {
+      nearX += (targetX - nearX) * 0.2;
+      nearY += (targetY - nearY) * 0.2;
+      farX += (targetX - farX) * 0.095;
+      farY += (targetY - farY) * 0.095;
+      move(nearTrail, nearX, nearY);
+      move(farTrail, farX, farY);
+      move(orbit, nearX, nearY);
+      animationFrame = window.requestAnimationFrame(animate);
+    };
+
+    const onPointerMove = (event) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      if (!cursor.dataset.visible) {
+        nearX = targetX;
+        nearY = targetY;
+        farX = targetX;
+        farY = targetY;
+        cursor.dataset.visible = 'true';
+      }
+      move(core, targetX, targetY);
+      setMode(event.target);
+    };
+
+    const onPointerDown = () => {
+      cursor.dataset.pressed = 'true';
+      window.clearTimeout(clickTimer);
+      clickTimer = window.setTimeout(() => { delete cursor.dataset.pressed; }, 180);
+    };
+
+    const hideCursor = () => { delete cursor.dataset.visible; };
+    const onMouseOut = (event) => {
+      if (!event.relatedTarget) hideCursor();
+    };
+
+    document.body.classList.add('custom-cursor-enabled');
+    document.addEventListener('pointermove', onPointerMove, { passive: true });
+    document.addEventListener('pointerdown', onPointerDown, { passive: true });
+    document.addEventListener('mouseout', onMouseOut);
+    window.addEventListener('blur', hideCursor);
+    animate();
+
+    return () => {
+      document.body.classList.remove('custom-cursor-enabled');
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('mouseout', onMouseOut);
+      window.removeEventListener('blur', hideCursor);
+      window.clearTimeout(clickTimer);
+      window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  return (
+    <div className="cursor-fx" ref={cursorRef} aria-hidden="true">
+      <span className="cursor-trail cursor-trail-far" ref={farTrailRef} />
+      <span className="cursor-trail cursor-trail-near" ref={nearTrailRef} />
+      <span className="cursor-orbit" ref={orbitRef}><i /><i /><i /></span>
+      <span className="cursor-core" ref={coreRef} />
+      <span className="cursor-label" ref={labelRef} />
+    </div>
+  );
+}
+
 function SectionKicker({ children, index }) {
   return (
     <div className="section-kicker">
@@ -472,7 +600,12 @@ function App() {
 
 function PortfolioRouter() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
-  return path === '/os' ? <PhoneOS /> : <App />;
+  return (
+    <>
+      <CustomCursor />
+      {path === '/os' ? <PhoneOS /> : <App />}
+    </>
+  );
 }
 
 createRoot(document.getElementById('root')).render(<PortfolioRouter />);

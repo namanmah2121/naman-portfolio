@@ -69,10 +69,17 @@ Reason: the OS library should identify each product visually and offer a direct 
 
 Impact: each project has a local logo path in src/data/projects.js; the Contact tile calls the user-supplied phone number through a tel link.
 
+Decision: desktop animated cursor with contextual action labels.
+
+Reason: make navigation and project interactions more tactile without changing the content flow.
+
+Impact: src/main.jsx drives pointer position, trails, hover labels and click feedback; src/styles.css contains the visual system and touch fallback.
+
 ## Edge cases
 
 - Clipboard API unavailable: show "Use email link" instead of claiming success.
 - JavaScript disabled: no app content renders; static deployment still serves the document shell.
 - Reduced-motion preference: CSS disables non-essential motion.
+- Touch devices and reduced-motion users: the native cursor remains active; the custom cursor is not rendered.
 - Long app screenshots: the image remains clipped to the iOS display and scrolls only inside the visible app area.
 - Very narrow viewport: navigation becomes a full-screen menu and project layouts stack.
