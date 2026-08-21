@@ -65,131 +65,87 @@ function DeviceMockup({ src, alt, className = '' }) {
 }
 
 function CustomCursor() {
-  const cursorRef = useRef(null);
-  const coreRef = useRef(null);
-  const nearTrailRef = useRef(null);
-  const farTrailRef = useRef(null);
-  const orbitRef = useRef(null);
-  const labelRef = useRef(null);
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    const finePointer = window.matchMedia('(pointer: fine)');
+    const coarsePointer = window.matchMedia('(pointer: coarse)');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!finePointer.matches || reducedMotion.matches) return undefined;
-
-    const cursor = cursorRef.current;
-    const core = coreRef.current;
-    const nearTrail = nearTrailRef.current;
-    const farTrail = farTrailRef.current;
-    const orbit = orbitRef.current;
-    const label = labelRef.current;
-    if (!cursor || !core || !nearTrail || !farTrail || !orbit || !label) return undefined;
-
-    let targetX = -100;
-    let targetY = -100;
-    let nearX = -100;
-    let nearY = -100;
-    let farX = -100;
-    let farY = -100;
-    let animationFrame;
-    let clickTimer;
-
-    const move = (node, x, y) => {
-      node.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-    };
-
-    const setMode = (target) => {
-      const element = target instanceof Element ? target : null;
-      const interactive = element?.closest('a, button, [role="button"]');
-      let mode = 'default';
-      let text = '';
-
-      if (interactive) {
-        if (interactive.classList.contains('os-app')) {
-          mode = 'open';
-          text = 'OPEN';
-        } else if (interactive.getAttribute('href')?.startsWith('tel:')) {
-          mode = 'call';
-          text = 'CALL';
-        } else if (interactive.getAttribute('href')?.startsWith('mailto:')) {
-          mode = 'mail';
-          text = 'MAIL';
-        } else if (interactive.classList.contains('text-button')) {
-          mode = 'view';
-          text = 'VIEW';
-        } else {
-          mode = 'link';
-          text = 'GO';
-        }
-      }
-
-      cursor.dataset.mode = mode;
-      label.textContent = text;
-    };
-
-    const animate = () => {
-      nearX += (targetX - nearX) * 0.2;
-      nearY += (targetY - nearY) * 0.2;
-      farX += (targetX - farX) * 0.095;
-      farY += (targetY - farY) * 0.095;
-      move(nearTrail, nearX, nearY);
-      move(farTrail, farX, farY);
-      move(orbit, nearX, nearY);
-      animationFrame = window.requestAnimationFrame(animate);
-    };
-
-    const onPointerMove = (event) => {
-      targetX = event.clientX;
-      targetY = event.clientY;
-      if (!cursor.dataset.visible) {
-        nearX = targetX;
-        nearY = targetY;
-        farX = targetX;
-        farY = targetY;
-        cursor.dataset.visible = 'true';
-      }
-      move(core, targetX, targetY);
-      setMode(event.target);
-    };
-
-    const onPointerDown = () => {
-      cursor.dataset.pressed = 'true';
-      window.clearTimeout(clickTimer);
-      clickTimer = window.setTimeout(() => { delete cursor.dataset.pressed; }, 180);
-    };
-
-    const hideCursor = () => { delete cursor.dataset.visible; };
-    const onMouseOut = (event) => {
-      if (!event.relatedTarget) hideCursor();
-    };
-
-    document.body.classList.add('custom-cursor-enabled');
-    document.addEventListener('pointermove', onPointerMove, { passive: true });
-    document.addEventListener('pointerdown', onPointerDown, { passive: true });
-    document.addEventListener('mouseout', onMouseOut);
-    window.addEventListener('blur', hideCursor);
-    animate();
-
+    const updateEnabled = () => setEnabled(!coarsePointer.matches && !reducedMotion.matches);
+    updateEnabled();
+    coarsePointer.addEventListener('change', updateEnabled);
+    reducedMotion.addEventListener('change', updateEnabled);
     return () => {
-      document.body.classList.remove('custom-cursor-enabled');
-      document.removeEventListener('pointermove', onPointerMove);
-      document.removeEventListener('pointerdown', onPointerDown);
-      document.removeEventListener('mouseout', onMouseOut);
-      window.removeEventListener('blur', hideCursor);
-      window.clearTimeout(clickTimer);
-      window.cancelAnimationFrame(animationFrame);
+      coarsePointer.removeEventListener('change', updateEnabled);
+      reducedMotion.removeEventListener('change', updateEnabled);
     };
   }, []);
 
-  return (
-    <div className="cursor-fx" ref={cursorRef} aria-hidden="true">
-      <span className="cursor-trail cursor-trail-far" ref={farTrailRef} />
-      <span className="cursor-trail cursor-trail-near" ref={nearTrailRef} />
-      <span className="cursor-orbit" ref={orbitRef}><i /><i /><i /></span>
-      <span className="cursor-core" ref={coreRef} />
-      <span className="cursor-label" ref={labelRef} />
-    </div>
-  );
+  useEffect(() => {
+    document.documentElement.classList.toggle('custom-cursor', enabled);
+    if (!enabled) return undefined;
+
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return undefined;
+
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let ringX = targetX;
+    let ringY = targetY;
+    let frameId = 0;
+    let animating = false;
+
+    const drawRing = () => {
+      ringX += (targetX - ringX) * 0.18;
+      ringY += (targetY - ringY) * 0.18;
+      ring.style.transform = 'translate(' + ringX + 'px, ' + ringY + 'px) translate(-50%, -50%)';
+      if (Math.abs(targetX - ringX) < 0.35 && Math.abs(targetY - ringY) < 0.35) {
+        animating = false;
+        frameId = 0;
+        return;
+      }
+      frameId = window.requestAnimationFrame(drawRing);
+    };
+
+    const startRing = () => {
+      if (!animating && !document.hidden) {
+        animating = true;
+        frameId = window.requestAnimationFrame(drawRing);
+      }
+    };
+
+    const onMouseMove = (event) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      dot.style.transform = 'translate(' + targetX + 'px, ' + targetY + 'px) translate(-50%, -50%)';
+      startRing();
+    };
+
+    const isHoverTarget = (target) => target instanceof Element && Boolean(target.closest('[data-cursor="hover"], a, button, [role="button"]'));
+    const onMouseOver = (event) => { if (isHoverTarget(event.target)) ring.classList.add('is-hover'); };
+    const onMouseOut = (event) => { if (isHoverTarget(event.target)) ring.classList.remove('is-hover'); };
+    const onVisibilityChange = () => { if (!document.hidden) startRing(); };
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('mouseover', onMouseOver);
+    document.addEventListener('mouseout', onMouseOut);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout', onMouseOut);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.cancelAnimationFrame(frameId);
+      document.documentElement.classList.remove('custom-cursor');
+    };
+  }, [enabled]);
+
+  if (!enabled) return null;
+
+  return <><div className="cursor-ring" ref={ringRef} aria-hidden="true" /><div className="cursor-dot" ref={dotRef} aria-hidden="true" /></>;
 }
 
 function SectionKicker({ children, index }) {

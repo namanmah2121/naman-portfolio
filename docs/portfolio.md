@@ -69,11 +69,11 @@ Reason: the OS library should identify each product visually and offer a direct 
 
 Impact: each project has a local logo path in src/data/projects.js; the Contact tile calls the user-supplied phone number through a tel link.
 
-Decision: desktop animated cursor with contextual action labels.
+Decision: Saheer-style desktop cursor.
 
-Reason: make navigation and project interactions more tactile without changing the content flow.
+Reason: match the approved visual reference without adding distracting cursor effects.
 
-Impact: src/main.jsx drives pointer position, trails, hover labels and click feedback; src/styles.css contains the visual system and touch fallback.
+Impact: src/main.jsx drives an immediate 6px cursor dot and a delayed cursor ring; src/styles.css expands the 36px ring to 68px on interactive hover targets and preserves the touch fallback.
 
 ## Edge cases
 
