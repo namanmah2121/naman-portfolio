@@ -660,20 +660,36 @@ footer {
 .device-shell {
   position: relative;
   display: flex;
+  box-sizing: border-box;
   aspect-ratio: 9 / 16;
-  padding: 0.35rem 0.28rem 0.58rem;
+  padding: 0.36rem;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.42);
-  border-radius: 2rem;
-  background: linear-gradient(135deg, #4c515a, #0a0b0e 22%, #252a33 82%, #858994);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.16);
+  border: 2px solid #1b1e23;
+  border-radius: 2.7rem;
+  background:
+    linear-gradient(108deg, rgba(255,255,255,0.46), transparent 5% 94%, rgba(255,255,255,0.22)),
+    linear-gradient(145deg, #8e949b, #181c22 11%, #090a0c 49%, #4a5058 100%);
+  box-shadow:
+    0 16px 30px rgba(0,0,0,0.48),
+    inset 0 0 0 1px rgba(255,255,255,0.32),
+    inset 0 0 0 0.18rem rgba(0,0,0,0.22);
+}
+
+.device-shell::before {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 0.17rem;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 2.37rem;
+  pointer-events: none;
 }
 
 .device-display {
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
-  border-radius: 1.6rem;
+  border-radius: 2.28rem;
   background: #111;
 }
 
@@ -696,40 +712,65 @@ footer {
   .device-display img { animation: none; }
 }
 
-.device-speaker {
+.device-island {
   position: absolute;
-  z-index: 1;
-  top: 0.52rem;
+  z-index: 3;
+  top: 0.54rem;
   left: 50%;
-  width: 26%;
-  height: 0.46rem;
+  width: 32%;
+  height: 0.72rem;
   border-radius: 999px;
-  background: rgba(0,0,0,0.74);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.08);
+  background: #050506;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.08), 0 1px 2px rgba(0,0,0,0.45);
   transform: translateX(-50%);
+}
+
+.device-island::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0.22rem;
+  width: 0.3rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #6475a1 0 11%, #151a2b 27%, #050506 62%);
+  transform: translateY(-50%);
 }
 
 .device-home {
   position: absolute;
-  bottom: 0.2rem;
+  z-index: 3;
+  bottom: 0.32rem;
   left: 50%;
-  width: 31%;
-  height: 0.15rem;
+  width: 29%;
+  height: 0.16rem;
   border-radius: 999px;
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.22);
   transform: translateX(-50%);
 }
 
 .device-button {
   position: absolute;
-  right: -0.22rem;
-  width: 0.23rem;
-  border-radius: 0 0.2rem 0.2rem 0;
-  background: #343942;
+  z-index: 0;
+  left: -0.2rem;
+  width: 0.22rem;
+  border-radius: 0.18rem 0 0 0.18rem;
+  background: linear-gradient(90deg, #1a1d22, #777d84 72%, #24272d);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.5);
 }
 
-.device-button-top { top: 22%; height: 11%; }
-.device-button-bottom { top: 37%; height: 18%; }
+.device-action { top: 19%; height: 6%; }
+.device-volume-up { top: 29%; height: 9%; }
+.device-volume-down { top: 40%; height: 9%; }
+.device-power {
+  top: 29%;
+  right: -0.2rem;
+  left: auto;
+  height: 17%;
+  border-radius: 0 0.18rem 0.18rem 0;
+  background: linear-gradient(90deg, #24272d, #777d84 25%, #1a1d22);
+}
 
 .screen-main {
   z-index: 1 !important;

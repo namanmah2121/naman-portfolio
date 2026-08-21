@@ -56,9 +56,16 @@ Reason: the Naman OS page is available at /os and must load correctly on direct 
 
 Impact: netlify.toml redirects application routes to the React entry point.
 
+Decision: shared iOS simulator previews for project screenshots.
+
+Reason: supplied app screens need a consistent device context rather than appearing as unframed images.
+
+Impact: src/main.jsx uses one device component for cards and detail modals; src/styles.css provides the iPhone-style bezel, Dynamic Island, controls, screen clipping and reduced-motion fallback.
+
 ## Edge cases
 
 - Clipboard API unavailable: show "Use email link" instead of claiming success.
 - JavaScript disabled: no app content renders; static deployment still serves the document shell.
 - Reduced-motion preference: CSS disables non-essential motion.
+- Long app screenshots: the image remains clipped to the iOS display and scrolls only inside the visible app area.
 - Very narrow viewport: navigation becomes a full-screen menu and project layouts stack.

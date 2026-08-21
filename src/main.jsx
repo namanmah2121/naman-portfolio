@@ -49,10 +49,12 @@ function DeviceMockup({ src, alt, className = '' }) {
 
   return (
     <div className={'device-mockup ' + className}>
-      <span className="device-button device-button-top" aria-hidden="true" />
-      <span className="device-button device-button-bottom" aria-hidden="true" />
+      <span className="device-button device-action" aria-hidden="true" />
+      <span className="device-button device-volume-up" aria-hidden="true" />
+      <span className="device-button device-volume-down" aria-hidden="true" />
+      <span className="device-button device-power" aria-hidden="true" />
       <div className="device-shell">
-        <span className="device-speaker" aria-hidden="true" />
+        <span className="device-island" aria-hidden="true" />
         <div className="device-display" ref={displayRef}>
           <img ref={imageRef} src={src} alt={alt} />
         </div>
