@@ -22,6 +22,22 @@ function Arrow() {
   return <span aria-hidden="true">↗</span>;
 }
 
+function DeviceMockup({ src, alt, className = '' }) {
+  return (
+    <div className={'device-mockup ' + className}>
+      <span className="device-button device-button-top" aria-hidden="true" />
+      <span className="device-button device-button-bottom" aria-hidden="true" />
+      <div className="device-shell">
+        <span className="device-speaker" aria-hidden="true" />
+        <div className="device-display">
+          <img src={src} alt={alt} />
+        </div>
+        <span className="device-home" aria-hidden="true" />
+      </div>
+    </div>
+  );
+}
+
 function SectionKicker({ children, index }) {
   return (
     <div className="section-kicker">
@@ -108,15 +124,41 @@ function ProjectModal({ project, onClose }) {
           <p>{project.category}</p>
           <h2 id="project-modal-title">{project.name}</h2>
         </div>
-        <p className="modal-copy">{project.details}</p>
-        <div className="modal-stack">
-          {project.stack.map((item) => <span key={item}>{item}</span>)}
+        <div className="modal-overview">
+          <p className="modal-copy">{project.details}</p>
+          <div className="modal-images">
+            {project.images.map((image, index) => (
+              <DeviceMockup
+                className="modal-device"
+                key={image}
+                src={image}
+                alt={project.name + ' app screen ' + (index + 1)}
+              />
+            ))}
+          </div>
         </div>
-        <div className="modal-images">
-          {project.images.map((image, index) => (
-            <img key={image} src={image} alt={project.name + ' app screen ' + (index + 1)} />
+        <div className="case-study-grid">
+          {project.capabilities.map((group) => (
+            <section className="case-study-block" key={group.title}>
+              <h3>{group.title}</h3>
+              <ul>{group.items.map((item) => <li key={item}>{item}</li>)}</ul>
+            </section>
           ))}
         </div>
+        <section className="case-flow">
+          <h3>Product flow</h3>
+          <ol>{project.flow.map((step, index) => <li key={step}><span>0{index + 1}</span>{step}</li>)}</ol>
+        </section>
+        <section className="case-technologies">
+          <h3>Used in this app</h3>
+          <div className="modal-stack">
+            {project.technologies.map((item) => <span key={item}>{item}</span>)}
+          </div>
+        </section>
+        <section className="case-evidence">
+          <h3>Implemented areas</h3>
+          <div>{project.evidence.map((item) => <span key={item}>{item}</span>)}</div>
+        </section>
       </article>
     </div>
   );
@@ -351,8 +393,8 @@ function App() {
               <article className={'project-card accent-' + project.accent + (index % 2 ? ' reverse' : '')} key={project.id}>
                 <div className="project-visuals">
                   <div className="project-number">CASE · {project.number}</div>
-                  <img className="screen-main" src={project.images[0]} alt={project.name + ' mobile screen'} />
-                  <img className="screen-side" src={project.images[1]} alt={project.name + ' product detail screen'} />
+                  <DeviceMockup className="screen-main" src={project.images[0]} alt={project.name + ' mobile screen'} />
+                  <DeviceMockup className="screen-side" src={project.images[1]} alt={project.name + ' product detail screen'} />
                 </div>
                 <div className="project-content">
                   <div className="project-meta"><span>/{project.number} — {project.category}</span><span>{project.role}</span></div>

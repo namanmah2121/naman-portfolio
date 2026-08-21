@@ -23,11 +23,12 @@ Visitor
 
 ## Implementation
 
-- src/data/projects.js owns project, skills and experience content.
-- src/main.jsx renders the portfolio, project-detail modal and Naman OS route.
-- src/styles.css owns responsive layout, animation and visual tokens.
+- src/data/projects.js owns project, skills, evidence-backed capabilities, flows and technology content.
+- src/main.jsx renders the portfolio, device mockups, project-detail modal and Naman OS route.
+- src/styles.css owns responsive layout, device emulator visuals, animation and visual tokens.
 - public/work contains user-supplied screenshots and profile photo.
 - There is no database, backend, auth flow or third-party data source.
+- docs/project-evidence.md records the source-backed business flows and implementation evidence for every showcased product.
 
 ## Technical decisions
 
