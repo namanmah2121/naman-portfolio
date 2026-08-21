@@ -24,6 +24,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'Axios', 'Razorpay', 'React Native Maps', 'Firebase Messaging + Notifee', 'Socket.IO', 'i18next'],
     evidence: ['PropertyDetailScreen', 'UnitsScreen', 'CheckoutScreen', 'UploadDocument', 'BookingConfirmedScreen'],
     images: ['/work/moolyam-home.png', '/work/moolyam-bookings.png'],
+    logo: '/work/moolyam-logo.png',
     accent: 'lime'
   },
   {
@@ -51,6 +52,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'Zustand', 'Razorpay', 'Firebase Messaging + Notifee', 'Axios', 'i18next'],
     evidence: ['InvestScreen', 'QuantitySelector', 'CostSummary', 'PaymentMethodSheet', 'PhysicalGoldRedemption', 'KycDetails'],
     images: ['/work/gold-jar-home.png', '/work/gold-jar-buy.png'],
+    logo: '/work/gold-jar-logo.png',
     accent: 'gold'
   },
   {
@@ -78,6 +80,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'Zustand', 'Stripe', 'Google Maps + Places', 'Geolocation', 'Socket.IO', 'Firebase Messaging + Notifee', 'i18next'],
     evidence: ['SelectVehicleScreen', 'ChooseServiceModeScreen', 'FindingVendorScreen', 'LiveTrackingScreen', 'DriverPickupJobScreen', 'AssignmentApi'],
     images: ['/work/mywhip-home.png', '/work/mywhip-partner.png'],
+    logo: '/work/mywhip-logo.png',
     accent: 'blue'
   },
   {
@@ -105,6 +108,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'React Hook Form + Yup', 'Socket.IO', 'Razorpay', 'Firebase Messaging + Notifee', 'Axios', 'i18next'],
     evidence: ['OnBoardingScreen', 'DiscoverScreen', 'SearchScreen', 'ChatScreen', 'BlockedUsersScreen', 'IdProofUploadScreen'],
     images: ['/work/madawatsab-discover.png', '/work/madawatsab-onboarding.png'],
+    logo: '/work/madawatsab-logo.png',
     accent: 'sand'
   },
   {
@@ -132,6 +136,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'Razorpay', 'Google Maps + Directions', 'Google Places', 'Firebase Messaging + Notifee', 'Pusher + Laravel Echo', 'Axios', 'i18next'],
     evidence: ['RestaurantDetail', 'Cart', 'OrderSummery', 'TrackOrderScreen', 'OrderStatusScreen', 'WithdrawalEarnings', 'PusherClient'],
     images: ['/work/mantae-customer.png', '/work/mantae-vendor.png'],
+    logo: '/work/mantae-logo.png',
     accent: 'green'
   },
   {
@@ -159,6 +164,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'Google Maps + Directions', 'Geolocation', 'Socket.IO', 'Razorpay', 'Firebase Messaging + Notifee', 'Axios', 'i18next'],
     evidence: ['HomeScreen', 'PackageDetailsScreen', 'LocationTracking', 'TripCompletedScreen', 'ChatScreen', 'LeadSubscriptionScreen'],
     images: ['/work/logix-tracking.png', '/work/logix-orders.png'],
+    logo: '/work/logix-logo.png',
     accent: 'orange'
   },
   {
@@ -186,6 +192,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'Razorpay', 'React Native Keychain', 'Google Sign-In', 'Firebase Messaging + Notifee', 'Axios', 'i18next'],
     evidence: ['CreatorRewardConfig', 'CreatorRewardsWallet', 'EarnSurveys', 'RewardSurveyRunner', 'KycForm', 'Withdrawals', 'features/respondent/session'],
     images: ['/work/panelist-surveys.png', '/work/panelist-management.png'],
+    logo: '/work/panelist-logo.png',
     accent: 'sage'
   }
 ];

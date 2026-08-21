@@ -1341,7 +1341,30 @@ footer a:hover { color: var(--lime); }
 
 .os-app:hover .os-app-icon { transform: translateY(-0.22rem) scale(1.04); }
 
-.os-contact-app { --project-accent: #f3f3f3; --project-bg: #62666c; }
+.os-logo-icon {
+  overflow: hidden;
+  padding: 0.22rem;
+}
+
+.os-logo-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.18));
+}
+
+.os-contact-app { --project-accent: #51df72; --project-bg: #169a4b; }
+
+.os-call-icon {
+  background: linear-gradient(145deg, #62eb82, #20a957) !important;
+  color: #fff;
+}
+
+.os-call-icon svg {
+  width: 47%;
+  height: 47%;
+}
 
 .os-dock {
   position: absolute;

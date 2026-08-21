@@ -17,6 +17,7 @@ Visitor
 ## Content rules
 
 - All project content comes from the supplied resume and screenshots.
+- Naman OS app icons use the supplied project-logo PNG files in public/work.
 - No Play Store links or unverified product metrics are shown.
 - Mantae is the final project name. Do not rename it to Delyfy.
 - Contact data is shown only as explicit user-facing links. Development logs must not include it.
@@ -61,6 +62,12 @@ Decision: shared iOS simulator previews for project screenshots.
 Reason: supplied app screens need a consistent device context rather than appearing as unframed images.
 
 Impact: src/main.jsx uses one device component for cards and detail modals; src/styles.css provides the iPhone-style bezel, Dynamic Island, controls, screen clipping and reduced-motion fallback.
+
+Decision: Naman OS uses project logos and an iPhone-style call tile.
+
+Reason: the OS library should identify each product visually and offer a direct mobile-native contact action.
+
+Impact: each project has a local logo path in src/data/projects.js; the Contact tile calls the user-supplied phone number through a tel link.
 
 ## Edge cases
 

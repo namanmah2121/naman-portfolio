@@ -237,15 +237,19 @@ function PhoneOS() {
                 className={'os-app accent-' + project.accent}
                 key={project.id}
                 type="button"
-                style={{ '--app-index': index }}
-                onClick={() => openProject(project)}
-              >
-                <span className="os-app-icon">{project.number}</span>
+              style={{ '--app-index': index }}
+              onClick={() => openProject(project)}
+            >
+                <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
                 <span>{project.name}</span>
               </button>
             ))}
-            <a className="os-app os-contact-app" href="mailto:maheshwarinaman513@gmail.com">
-              <span className="os-app-icon">✉</span>
+            <a className="os-app os-contact-app" href="tel:+918696281302" aria-label="Call Naman Asawa">
+              <span className="os-app-icon os-call-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M21.3 16.2v3.1a2.1 2.1 0 0 1-2.3 2.1A18.1 18.1 0 0 1 3.1 5.5 2.1 2.1 0 0 1 5.2 3.2h3.1a1 1 0 0 1 1 .9c.1 1.1.3 2.2.7 3.2a1 1 0 0 1-.2 1.1L8.5 9.7a14.2 14.2 0 0 0 5.8 5.8l1.3-1.3a1 1 0 0 1 1.1-.2c1 .4 2.1.6 3.2.7a1 1 0 0 1 .9 1.5Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               <span>Contact</span>
             </a>
           </div>
