@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { experience, projects, skillGroups } from './data/projects';
 import './styles.css';
@@ -23,14 +23,38 @@ function Arrow() {
 }
 
 function DeviceMockup({ src, alt, className = '' }) {
+  const displayRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const display = displayRef.current;
+    const image = imageRef.current;
+    if (!display || !image) return undefined;
+
+    const setScrollDistance = () => {
+      const overflow = Math.max(0, image.getBoundingClientRect().height - display.getBoundingClientRect().height);
+      image.style.setProperty('--scroll-offset', '-' + Math.round(overflow) + 'px');
+    };
+
+    const observer = new ResizeObserver(setScrollDistance);
+    observer.observe(display);
+    image.addEventListener('load', setScrollDistance);
+    requestAnimationFrame(setScrollDistance);
+
+    return () => {
+      observer.disconnect();
+      image.removeEventListener('load', setScrollDistance);
+    };
+  }, [src]);
+
   return (
     <div className={'device-mockup ' + className}>
       <span className="device-button device-button-top" aria-hidden="true" />
       <span className="device-button device-button-bottom" aria-hidden="true" />
       <div className="device-shell">
         <span className="device-speaker" aria-hidden="true" />
-        <div className="device-display">
-          <img src={src} alt={alt} />
+        <div className="device-display" ref={displayRef}>
+          <img ref={imageRef} src={src} alt={alt} />
         </div>
         <span className="device-home" aria-hidden="true" />
       </div>
