@@ -25,6 +25,7 @@ export const projects = [
     evidence: ['PropertyDetailScreen', 'UnitsScreen', 'CheckoutScreen', 'UploadDocument', 'BookingConfirmedScreen'],
     images: ['/work/moolyam-home.png', '/work/moolyam-bookings.png'],
     logo: '/work/moolyam-logo.png',
+    storeUrl: 'https://play.google.com/store/apps/details?id=com.moolyam',
     accent: 'lime'
   },
   {
@@ -137,6 +138,7 @@ export const projects = [
     evidence: ['RestaurantDetail', 'Cart', 'OrderSummery', 'TrackOrderScreen', 'OrderStatusScreen', 'WithdrawalEarnings', 'PusherClient'],
     images: ['/work/mantae-customer.png', '/work/mantae-vendor.png'],
     logo: '/work/mantae-logo.png',
+    storeUrl: 'https://play.google.com/store/apps/details?id=com.moloy',
     accent: 'green'
   },
   {

@@ -317,16 +317,29 @@ function PhoneOS() {
           <p className="os-section-label">PROJECT LIBRARY</p>
           <div className="os-app-grid">
             {projects.map((project, index) => (
-              <button
-                className={'os-app os-app-' + project.id + ' accent-' + project.accent}
-                key={project.id}
-                type="button"
-              style={{ '--app-index': index }}
-              onClick={() => openProject(project)}
-            >
-                <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
-                <span>{project.name}</span>
-              </button>
+              project.storeUrl ? (
+                <a
+                  className={'os-app os-app-' + project.id + ' accent-' + project.accent}
+                  href={project.storeUrl}
+                  key={project.id}
+                  style={{ '--app-index': index }}
+                  onClick={() => logDev('os-project-store-open', { project: project.id })}
+                >
+                  <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
+                  <span>{project.name}</span>
+                </a>
+              ) : (
+                <button
+                  className={'os-app os-app-' + project.id + ' accent-' + project.accent}
+                  key={project.id}
+                  type="button"
+                  style={{ '--app-index': index }}
+                  onClick={() => openProject(project)}
+                >
+                  <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
+                  <span>{project.name}</span>
+                </button>
+              )
             ))}
             <a className="os-app os-contact-app" href="tel:+918696281302" aria-label="Call Naman Asawa">
               <span className="os-app-icon os-call-icon" aria-hidden="true">
@@ -357,7 +370,7 @@ function PhoneOS() {
           )}
         </div>
       </section>
-      <p className="os-hint">Tap a project to open its product card.</p>
+      <p className="os-hint">Tap a project to view details or visit its app listing.</p>
     </main>
   );
 }

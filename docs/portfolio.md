@@ -9,6 +9,7 @@ Present Naman Asawa as a React Native developer through real product work, direc
 Visitor
   -> Hero
   -> Optional Naman OS project library
+     -> Project card or verified Play Store listing
   -> Skills and work history
   -> Project cards
   -> Project detail modal
@@ -18,7 +19,7 @@ Visitor
 
 - All project content comes from the supplied resume and screenshots.
 - Naman OS app icons use the supplied project-logo PNG files in public/work.
-- No Play Store links or unverified product metrics are shown.
+- Only verified Play Store links are shown: Moolyam and Mantae.
 - Mantae is the final project name. Do not rename it to Delyfy.
 - Contact data is shown only as explicit user-facing links. Development logs must not include it.
 
@@ -75,6 +76,12 @@ Reason: project logos use stable public URLs and browsers can retain the previou
 
 Impact: the MyWhip logo URL includes an asset version, so the latest supplied logo loads immediately after deployment.
 
+Decision: direct Moolyam and Mantae Naman OS tiles to their verified Play Store listings.
+
+Reason: these are user-confirmed public destinations, while the remaining projects do not have a verified store listing.
+
+Impact: `storeUrl` in src/data/projects.js makes only these two tiles external links; all other tiles retain their product-card modal.
+
 Decision: Saheer-style desktop cursor.
 
 Reason: match the approved visual reference without adding distracting cursor effects.
@@ -89,3 +96,4 @@ Impact: src/main.jsx drives an immediate 6px cursor dot and a delayed cursor rin
 - Touch devices and reduced-motion users: the native cursor remains active; the custom cursor is not rendered.
 - Long app screenshots: the image remains clipped to the iOS display and scrolls only inside the visible app area.
 - Very narrow viewport: navigation becomes a full-screen menu and project layouts stack.
+- Play Store unavailable or listing removed: the browser handles the external-link failure; Naman OS remains usable for all other project tiles.
