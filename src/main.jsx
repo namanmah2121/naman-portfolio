@@ -276,7 +276,12 @@ function ProjectModal({ project, onClose }) {
 
 function PhoneOS() {
   const [activeProject, setActiveProject] = useState(null);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const [clock, setClock] = useState('');
+  const galleryItems = projects.flatMap((project) => project.images.map((image, index) => ({
+    image,
+    label: project.name + ' screen ' + (index + 1)
+  })));
 
   useEffect(() => {
     const updateClock = () => setClock(
@@ -292,85 +297,120 @@ function PhoneOS() {
     logDev('os-project-open', { project: project.id });
   };
 
+  const openGallery = () => {
+    setGalleryOpen(true);
+    logDev('os-gallery-open');
+  };
+
+  const closeGallery = () => {
+    setGalleryOpen(false);
+    logDev('os-gallery-close');
+  };
+
   return (
     <main className="phone-os">
-      <a className="os-back" href="/">← Back to portfolio</a>
-      <p className="os-label">Naman Asawa · Mobile product developer</p>
-      <section className="phone-frame" aria-label="Naman OS">
-        <div className="phone-screen">
-          <div className="phone-status">
-            <span>{clock}</span>
-            <span>◔ ◔ ▰</span>
+      <div className="os-background" aria-hidden="true">
+        <span className="os-grid-floor" />
+        <span className="os-blob os-blob-cyan" />
+        <span className="os-blob os-blob-lime" />
+      </div>
+      <header className="os-toolbar">
+        <a className="os-back" href="/">← Portfolio</a>
+        <p className="os-label">Naman Asawa · Mobile systems</p>
+        <p className="os-status"><span />{clock}</p>
+      </header>
+      <section className="os-hero" aria-labelledby="os-title">
+        <p className="os-eyebrow">[ Personal workspace · 2026 ]</p>
+        <h1 id="os-title">Naman<br /><span>OS.</span></h1>
+        <p className="os-intro">A project library for mobile products, real-world workflows and shipped interfaces.</p>
+      </section>
+      <section className="os-widgets" aria-label="Workspace widgets">
+        <a className="os-widget os-github-widget" href="https://github.com/namanmah2121" target="_blank" rel="noreferrer" onClick={() => logDev('os-github-open')}>
+          <span className="os-widget-kicker">Developer profile</span>
+          <span className="os-github-mark" aria-hidden="true">&lt;/&gt;</span>
+          <span className="os-widget-title">GitHub</span>
+          <span className="os-widget-copy">github.com/namanmah2121 <Arrow /></span>
+        </a>
+        <button className="os-widget os-gallery-widget" type="button" onClick={openGallery}>
+          <span className="os-widget-kicker">Selected screens</span>
+          <span className="os-gallery-preview" aria-hidden="true">
+            {galleryItems.slice(0, 4).map((item) => <img src={item.image} alt="" key={item.image} />)}
+          </span>
+          <span className="os-widget-title">Gallery</span>
+          <span className="os-widget-copy">{galleryItems.length} product screens <Arrow /></span>
+        </button>
+      </section>
+      <section className="os-library" aria-labelledby="os-library-title">
+        <div className="os-library-header">
+          <div>
+            <p className="os-section-label">Project library</p>
+            <h2 id="os-library-title">Apps</h2>
           </div>
-          <div className="phone-island" />
-          <div className="os-widgets">
-            <article className="os-profile-widget">
-              <img src="/work/naman-asawa.jpg" alt="" />
-              <div><span>Available for</span><strong>React Native<br />work</strong></div>
-            </article>
-            <article className="os-work-widget">
-              <span>SELECTED WORK</span>
-              <strong>07</strong>
-              <p>mobile products</p>
-            </article>
-          </div>
-          <p className="os-section-label">PROJECT LIBRARY</p>
-          <div className="os-app-grid">
-            {projects.map((project, index) => (
-              project.storeUrl ? (
-                <a
-                  className={'os-app os-app-' + project.id + ' accent-' + project.accent}
-                  href={project.storeUrl}
-                  key={project.id}
-                  style={{ '--app-index': index }}
-                  onClick={() => logDev('os-project-store-open', { project: project.id })}
-                >
-                  <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
-                  <span>{project.name}</span>
-                </a>
-              ) : (
-                <button
-                  className={'os-app os-app-' + project.id + ' accent-' + project.accent}
-                  key={project.id}
-                  type="button"
-                  style={{ '--app-index': index }}
-                  onClick={() => openProject(project)}
-                >
-                  <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
-                  <span>{project.name}</span>
-                </button>
-              )
-            ))}
-            <a className="os-app os-contact-app" href="tel:+918696281302" aria-label="Call Naman Asawa">
-              <span className="os-app-icon os-call-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M21.3 16.2v3.1a2.1 2.1 0 0 1-2.3 2.1A18.1 18.1 0 0 1 3.1 5.5 2.1 2.1 0 0 1 5.2 3.2h3.1a1 1 0 0 1 1 .9c.1 1.1.3 2.2.7 3.2a1 1 0 0 1-.2 1.1L8.5 9.7a14.2 14.2 0 0 0 5.8 5.8l1.3-1.3a1 1 0 0 1 1.1-.2c1 .4 2.1.6 3.2.7a1 1 0 0 1 .9 1.5Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span>Contact</span>
-            </a>
-          </div>
-          <div className="os-dock">
-            <a href="/"><span>⌂</span><small>Portfolio</small></a>
-            <a href="/Naman-Asawa-Resume.pdf" download><span>↓</span><small>Resume</small></a>
-            <a href="mailto:maheshwarinaman513@gmail.com"><span>✉</span><small>Email</small></a>
-          </div>
-          <div className="phone-home-indicator" />
-          {activeProject && (
-            <article className={'os-window accent-' + activeProject.accent}>
-              <button type="button" className="os-window-close" onClick={() => setActiveProject(null)}>×</button>
-              <img src={activeProject.images[0]} alt={activeProject.name + ' app screen'} />
-              <div>
-                <span>CASE · {activeProject.number}</span>
-                <h1>{activeProject.name}</h1>
-                <p>{activeProject.category}</p>
-                <button type="button" onClick={() => setActiveProject(null)}>Close project</button>
-              </div>
-            </article>
-          )}
+          <p>07 products</p>
+        </div>
+        <div className="os-app-grid">
+          {projects.map((project, index) => (
+            project.storeUrl ? (
+              <a
+                className={'os-app os-app-' + project.id + ' accent-' + project.accent}
+                href={project.storeUrl}
+                key={project.id}
+                style={{ '--app-index': index }}
+                onClick={() => logDev('os-project-store-open', { project: project.id })}
+              >
+                <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
+                <span>{project.name}</span>
+              </a>
+            ) : (
+              <button
+                className={'os-app os-app-' + project.id + ' accent-' + project.accent}
+                key={project.id}
+                type="button"
+                style={{ '--app-index': index }}
+                onClick={() => openProject(project)}
+              >
+                <span className="os-app-icon os-logo-icon"><img src={project.logo} alt="" /></span>
+                <span>{project.name}</span>
+              </button>
+            )
+          ))}
+          <a className="os-app os-contact-app" href="tel:+918696281302" aria-label="Call Naman Asawa">
+            <span className="os-app-icon os-call-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M21.3 16.2v3.1a2.1 2.1 0 0 1-2.3 2.1A18.1 18.1 0 0 1 3.1 5.5 2.1 2.1 0 0 1 5.2 3.2h3.1a1 1 0 0 1 1 .9c.1 1.1.3 2.2.7 3.2a1 1 0 0 1-.2 1.1L8.5 9.7a14.2 14.2 0 0 0 5.8 5.8l1.3-1.3a1 1 0 0 1 1.1-.2c1 .4 2.1.6 3.2.7a1 1 0 0 1 .9 1.5Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span>Contact</span>
+          </a>
         </div>
       </section>
-      <p className="os-hint">Tap a project to view details or visit its app listing.</p>
+      {activeProject && (
+        <article className={'os-window accent-' + activeProject.accent} role="dialog" aria-modal="true" aria-labelledby="os-project-title">
+          <button type="button" className="os-window-close" onClick={() => setActiveProject(null)} aria-label="Close project">×</button>
+          <img src={activeProject.images[0]} alt={activeProject.name + ' app screen'} />
+          <div>
+            <span>CASE · {activeProject.number}</span>
+            <h1 id="os-project-title">{activeProject.name}</h1>
+            <p>{activeProject.category}</p>
+            <button type="button" onClick={() => setActiveProject(null)}>Close project</button>
+          </div>
+        </article>
+      )}
+      {galleryOpen && (
+        <div className="os-gallery-modal" role="dialog" aria-modal="true" aria-labelledby="os-gallery-title">
+          <button className="os-gallery-backdrop" type="button" aria-label="Close gallery" onClick={closeGallery} />
+          <section className="os-gallery-panel">
+            <button className="os-gallery-close" type="button" onClick={closeGallery}>Close ×</button>
+            <header>
+              <p>Product gallery</p>
+              <h2 id="os-gallery-title">Screens from the work</h2>
+            </header>
+            <div className="os-gallery-grid">
+              {galleryItems.map((item) => <figure key={item.image}><img src={item.image} alt={item.label} /><figcaption>{item.label}</figcaption></figure>)}
+            </div>
+          </section>
+        </div>
+      )}
     </main>
   );
 }

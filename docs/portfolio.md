@@ -9,6 +9,7 @@ Present Naman Asawa as a React Native developer through real product work, direc
 Visitor
   -> Hero
   -> Optional Naman OS project library
+     -> GitHub profile or local screenshot gallery
      -> Project card or verified Play Store listing
   -> Skills and work history
   -> Project cards
@@ -21,6 +22,7 @@ Visitor
 - Naman OS app icons use the supplied project-logo PNG files in public/work.
 - Only verified Play Store links are shown: Moolyam and Mantae.
 - Mantae is the final project name. Do not rename it to Delyfy.
+- Naman OS shows GitHub and gallery widgets; it does not show a weather widget or fetch external weather data.
 - Contact data is shown only as explicit user-facing links. Development logs must not include it.
 
 ## Implementation
@@ -82,6 +84,12 @@ Reason: these are user-confirmed public destinations, while the remaining projec
 
 Impact: `storeUrl` in src/data/projects.js makes only these two tiles external links; all other tiles retain their product-card modal.
 
+Decision: Naman OS uses the dark editorial visual language of the supplied Saheer Khan reference.
+
+Reason: it gives the project library a clear workspace structure while retaining Naman's existing project app icons and destinations.
+
+Impact: src/main.jsx provides GitHub and gallery widgets above the unchanged app grid; src/styles.css supplies the black grid-floor, lime/cyan accents and responsive panel layout. The gallery uses existing local project screenshots, so it needs no API or additional tracking.
+
 Decision: Saheer-style desktop cursor.
 
 Reason: match the approved visual reference without adding distracting cursor effects.
@@ -97,3 +105,4 @@ Impact: src/main.jsx drives an immediate 6px cursor dot and a delayed cursor rin
 - Long app screenshots: the image remains clipped to the iOS display and scrolls only inside the visible app area.
 - Very narrow viewport: navigation becomes a full-screen menu and project layouts stack.
 - Play Store unavailable or listing removed: the browser handles the external-link failure; Naman OS remains usable for all other project tiles.
+- GitHub unavailable: the external browser link handles the failure; gallery and app tiles remain usable.
