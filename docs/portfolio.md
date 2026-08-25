@@ -69,6 +69,12 @@ Reason: the OS library should identify each product visually and offer a direct 
 
 Impact: each project has a local logo path in src/data/projects.js; the Contact tile calls the user-supplied phone number through a tel link.
 
+Decision: version replaced public logo assets.
+
+Reason: project logos use stable public URLs and browsers can retain the previous image after a deployment.
+
+Impact: the MyWhip logo URL includes an asset version, so the latest supplied logo loads immediately after deployment.
+
 Decision: Saheer-style desktop cursor.
 
 Reason: match the approved visual reference without adding distracting cursor effects.

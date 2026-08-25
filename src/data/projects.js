@@ -80,7 +80,7 @@ export const projects = [
     technologies: ['React Native', 'TypeScript', 'React Navigation', 'Redux Toolkit + Persist', 'Zustand', 'Stripe', 'Google Maps + Places', 'Geolocation', 'Socket.IO', 'Firebase Messaging + Notifee', 'i18next'],
     evidence: ['SelectVehicleScreen', 'ChooseServiceModeScreen', 'FindingVendorScreen', 'LiveTrackingScreen', 'DriverPickupJobScreen', 'AssignmentApi'],
     images: ['/work/mywhip-home.png', '/work/mywhip-partner.png'],
-    logo: '/work/mywhip-logo.png',
+    logo: '/work/mywhip-logo.png?v=20260825',
     accent: 'blue'
   },
   {
