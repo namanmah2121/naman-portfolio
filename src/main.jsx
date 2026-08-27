@@ -163,8 +163,19 @@ function Header({ menuOpen, setMenuOpen }) {
 
   return (
     <header className="site-header">
-      <a className="brand" href="#top" aria-label="Back to top">
-        NA<span>.</span>
+      <a
+        className="brand"
+        href="#top"
+        aria-label="Back to top"
+        onClick={() => logDev('header-profile-click')}
+      >
+        <span className="brand-avatar" aria-hidden="true">
+          <img src="/work/naman-asawa.jpg" alt="" />
+        </span>
+        <span className="brand-copy">
+          <span className="brand-name">Naman</span>
+          <span className="brand-label">Portfolio</span>
+        </span>
       </a>
       <nav className="desktop-nav" aria-label="Primary navigation">
         {navigation.map(([label, href]) => (
