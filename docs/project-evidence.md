@@ -31,7 +31,7 @@ Implementation evidence:
 
 Technology shown in the case study: React Native, TypeScript, React Navigation, Redux Toolkit/Persist, Axios, Razorpay, React Native Maps, Firebase Messaging, Notifee, Socket.IO and i18next.
 
-## Gold Jar
+## G10 Digital Gold Saving
 
 Business flow:
 

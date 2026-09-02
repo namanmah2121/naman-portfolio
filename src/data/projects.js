@@ -31,7 +31,7 @@ export const projects = [
   {
     id: 'gold-jar',
     number: '02',
-    name: 'Gold Jar',
+    name: 'G10 Digital Gold Saving',
     category: 'Digital gold investment',
     role: 'React Native Developer',
     description:
@@ -54,6 +54,7 @@ export const projects = [
     evidence: ['InvestScreen', 'QuantitySelector', 'CostSummary', 'PaymentMethodSheet', 'PhysicalGoldRedemption', 'KycDetails'],
     images: ['/work/gold-jar-home.png', '/work/gold-jar-buy.png'],
     logo: '/work/gold-jar-logo.png',
+    storeUrl: 'https://play.google.com/store/apps/details?id=com.goldsaving',
     accent: 'gold'
   },
   {

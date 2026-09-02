@@ -19,7 +19,7 @@ Visitor
 
 - All project content comes from the supplied resume and screenshots.
 - Naman OS app icons use the supplied project-logo PNG files in public/work.
-- Only verified Play Store links are shown: Moolyam and Mantae.
+- Only verified Play Store links are shown: Moolyam, G10 Digital Gold Saving and Mantae.
 - Mantae is the final project name. Do not rename it to Delyfy.
 - Contact data is shown only as explicit user-facing links. Development logs must not include it.
 
@@ -76,11 +76,11 @@ Reason: project logos use stable public URLs and browsers can retain the previou
 
 Impact: the MyWhip logo URL includes an asset version, so the latest supplied logo loads immediately after deployment.
 
-Decision: direct Moolyam and Mantae Naman OS tiles to their verified Play Store listings.
+Decision: direct Moolyam, G10 Digital Gold Saving and Mantae Naman OS tiles to their verified Play Store listings.
 
 Reason: these are user-confirmed public destinations, while the remaining projects do not have a verified store listing.
 
-Impact: `storeUrl` in src/data/projects.js makes only these two tiles external links; all other tiles retain their product-card modal.
+Impact: `storeUrl` in src/data/projects.js makes only these three tiles external links; all other tiles retain their product-card modal.
 
 Decision: Saheer-style desktop cursor.
 
